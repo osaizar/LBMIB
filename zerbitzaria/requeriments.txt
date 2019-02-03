@@ -1,0 +1,5 @@
+Flask
+SQLAlchemy
+mysqlclient
+Werkzeug
+sqlalchemy_utils

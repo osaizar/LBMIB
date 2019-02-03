@@ -1,0 +1,68 @@
+body {
+  background-image:  url("/img/paper.png");
+}
+
+hr {
+    border: none;
+    height: 3px; -- ikutu daiteke
+    color: #aaa;
+    background-color: #aaa;
+}
+
+footer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.thin-hr {
+  height: 1px;
+  margin-top: 10px;
+  color: #ccc;
+  background-color: #ccc;
+}
+
+.white-background{
+  background: white;
+}
+
+.form-row {
+  margin: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+.modal-red, .close{
+  background-color: red;
+  color:white !important;
+  text-align: center;
+  font-size: 20px;
+}
+
+.modal-green, .close{
+  background-color: #5cb85c;
+  color:white !important;
+  text-align: center;
+  font-size: 20px;
+}
+
+.modal-blue, .close{
+  background-color: blue;
+  color:white !important;
+  text-align: center;
+  font-size: 20px;
+}
+
+#signUpForm, #signInForm, #chPasswordForm, #chEmailForm{
+  margin: 10px;
+}
+
+
+/* Sortable tables */
+table.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
+}

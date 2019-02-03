@@ -1,0 +1,10 @@
+
+# Add any directories, files, or patterns you don't want to be tracked by version control
+node_modules/
+project/database.db
+npm-debug.log
+*.pyc
+*.xlsx
+project/static/js/client.js
+project/static/bower_components
+*.log
