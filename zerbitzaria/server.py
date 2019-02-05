@@ -6,70 +6,13 @@ import os
 import db_helper as db
 from validator import validate_json, validate_schema, validate_token
 from logger import Logger
-# from models import *
+from models import Device, User, Session, Message, Permission
 
 PORT = 5000
 ADDR = "0.0.0.0"
 
 app = Flask(__name__)
 logger = Logger().get_logger()
-
-# Imports
-@app.route("/img/logo.png")
-def logoPNG():
-    return app.send_static_file("img/logo.png")
-
-@app.route("/img/logo_osoa.png")
-def logoOsoaPNG():
-    return app.send_static_file("img/logo_osoa.png")
-
-@app.route("/img/paper.png")
-def paperPNG():
-    return app.send_static_file("img/paper.png")
-
-@app.route("/css/client.css")
-def clientCSS():
-    return app.send_static_file("css/client.css")
-
-@app.route("/css/react-table.css")
-def reacttableCSS():
-    return app.send_static_file("css/react-table.css")
-
-@app.route("/css/react-select.css")
-def reactselectCSS():
-    return app.send_static_file("css/react-select.css")
-
-@app.route("/lib/bootstrap/css/bootstrap.css")
-def bootstrapCSS():
-    return app.send_static_file("bower_components/bootstrap/dist/css/bootstrap.css")
-
-@app.route("/js/client.js")
-def clientJS():
-    return app.send_static_file("js/client.js")
-
-@app.route("/js/sorttable.js")
-def sorttableJS():
-    return app.send_static_file("js/sorttable.js")
-
-@app.route("/lib/jquery/jquery.js")
-def jqueryJS():
-    return app.send_static_file("bower_components/jquery/dist/jquery.js")
-
-@app.route("/lib/bootstrap/js/bootstrap.js")
-def bootstrapJS():
-    return app.send_static_file("bower_components/bootstrap/dist/js/bootstrap.js")
-
-@app.route("/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf")
-def bootstrapGlyphiconTTF():
-    return app.send_static_file("bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf")
-
-@app.route("/lib/bootstrap/fonts/glyphicons-halflings-regular.woff")
-def bootstrapGlyphiconWOFF():
-    return app.send_static_file("bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff")
-
-@app.route("/lib/bootstrap/fonts/glyphicons-halflings-regular.woff2")
-def bootstrapGlyphiconWOFF2():
-    return app.send_static_file("bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2")
 
 # Help functions
 def token_generator(size=15, chars=string.ascii_uppercase + string.digits):
@@ -80,6 +23,77 @@ def token_generator(size=15, chars=string.ascii_uppercase + string.digits):
 @app.route('/<path:path>')
 def index(path):
     return render_template("index.html")
+
+
+@app.route('/ajax/add_device', methods=["POST"])
+@validate_json
+@validate_token
+def add_device():
+    try:
+        token = request.headers["token"] # TODO: Wrapper bat?
+        user = db.get_user_by_token(token)
+        if user == None:
+            return jsonify({"error" : "Gakoa ez da zuzena"}), 200
+
+        data = request.get_json(silent = True) # device auth
+        device = db.get_device_by_code(data["code"])
+
+        if device == None :
+            return jsonify({"error" : "Kodea ez da baliozkoa"}), 400
+        if db.device_has_owner(device.id):
+            return jsonify({"error" : "Kodea ez da baliozkoa"}), 400
+
+        if db.add(Permission(user.id, device.id, Permission.OWNER)) == False:
+            return jsonify({"error" : "Errorea datubasean"}), 500
+
+        logger.info("Device bati jabea jarri zaio. Auth:"+device.auth+" UserId:"+str(user.id)+" addr:"+str(request.remote_addr))
+
+        return jsonify({"success" : "true"}), 200
+    except Exception, e:
+        logger.error("Errorea 'add_device' : "+str(e)+" "+str(request.remote_addr))
+        abort(500)
+
+# Device functions
+@app.route('/device/state', methods=["POST"])
+@validate_json
+def device_state():
+    try:
+        data = request.get_json(silent = True) # device auth, message date
+        device = db.get_device_by_auth(data["auth"])
+
+        if device != None:
+            return jsonify({"error" : "Auth-kodea ez da baliozkoa"}), 400
+
+        if not db.device_has_owner(device.id):
+            return jsonify({"state" : "no-owner"}), 200
+        elif:
+            pass # TODO: Mezu berririk badago, bidali
+
+        return jsonify({"state" : "correct"}), 200
+    except Exception, e:
+        logger.error("Errorea 'device_state' : "+str(e)+" "+str(request.remote_addr))
+        abort(500)
+
+
+@app.route('/device/new', methods=["POST"])
+@validate_json
+def device_new():
+    try:
+        data = request.get_json(silent = True) # device auth
+        if db.get_device_by_auth(data["auth"]) != None:
+            return jsonify({"error" : "Auth-kodea ez da baliozkoa"}), 400
+
+        device = db.add(Device(data["auth"], Device.generate_code()))
+
+        if device == False:
+            return jsonify({"error" : "Errorea datubasean"}), 500
+
+        logger.info("Device berri bat sortu da. Auth:"+device.auth+" Code:"+device.code+" addr:"+str(request.remote_addr))
+
+        return jsonify({"success" : "true", "code" : device.code}), 200
+    except Exception, e:
+        logger.error("Errorea 'device_new' : "+str(e)+" "+str(request.remote_addr))
+        abort(500)
 
 if __name__ == '__main__':
    app.run(host=ADDR, port=PORT)
