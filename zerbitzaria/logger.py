@@ -3,14 +3,13 @@ import logging.handlers
 import sys
 
 class Logger():
-
     def __init__(self):
         try:
             self.logger = logging.getLogger("lbmib")
             self.logger.setLevel(logging.DEBUG)
 
             # create a file handler
-            handler = logging.SysLogHandler(address = "/dev/log")
+            handler = logging.handlers.SysLogHandler(address = "/dev/log")
 
             # create a logging format
             formatter = logging.Formatter('LBMIB - %(asctime)s - %(levelname)s - %(message)s')

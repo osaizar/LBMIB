@@ -66,7 +66,7 @@ def device_state():
 
         if not db.device_has_owner(device.id):
             return jsonify({"state" : "no-owner"}), 200
-        elif:
+        else:
             pass # TODO: Mezu berririk badago, bidali
 
         return jsonify({"state" : "correct"}), 200
@@ -96,4 +96,5 @@ def device_new():
         abort(500)
 
 if __name__ == '__main__':
+   logger.info("Web server has started")
    app.run(host=ADDR, port=PORT)
