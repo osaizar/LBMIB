@@ -13,7 +13,7 @@ class Logger():
             handler = logging.SysLogHandler(address = "/dev/log")
 
             # create a logging format
-            formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+            formatter = logging.Formatter('LBMIB - %(asctime)s - %(levelname)s - %(message)s')
             handler.setFormatter(formatter)
 
             # add the handlers to the logger

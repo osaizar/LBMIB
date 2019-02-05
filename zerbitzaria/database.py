@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # DATABASE = 'sql://root:toor@localhost/lbmib'
 
-DATABASE = 'sqlite:/database.db'
+DATABASE = 'sqlite:///database.sqlite'
 
 engine = create_engine(DATABASE, convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,

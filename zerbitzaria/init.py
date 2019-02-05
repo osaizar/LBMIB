@@ -2,15 +2,10 @@
 from database import Base, db_session, engine
 from werkzeug.security import generate_password_hash
 from sqlalchemy_utils import database_exists, create_database, drop_database
-# from models import *
+from models import Device, User, Session, Message, Permission
 import os
 import sys
 import pwd
-
-from herridb import herriak, probintziak
-
-FLASK_USER = "flask_user" # deployment -> flask_user
-
 
 def add(data):
     db_session.add(data)
@@ -30,10 +25,12 @@ def check_user(username):
         return False
 
 def main():
-    #if not check_root():
-    #    print "[!] Exekutatu scipt hau root moduan"
-    #    sys.exit(1)
-
+    """
+    if not check_root():
+        print "[!] Exekutatu scipt hau root moduan"
+        sys.exit(1)
+    """
+    
     if database_exists(engine.url):
         ans = raw_input("[+] lbmib datu basea aurkitu da, ezabatzea nahi? (b/e) ")
         if ans.lower() == "b":
