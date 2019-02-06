@@ -12,9 +12,11 @@ class Device(Base):
         self.auth = auth
         self.code = code
 
+    @staticmethod
     def generate_auth(size=15, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
         return ''.join(random.choice(chars) for _ in range(size))
 
+    @staticmethod
     def generate_code(size=5, chars=string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 

@@ -61,13 +61,14 @@ def device_state():
         data = request.get_json(silent = True) # device auth, message date
         device = db.get_device_by_auth(data["auth"])
 
-        if device != None:
-            return jsonify({"error" : "Auth-kodea ez da baliozkoa"}), 400
+        if device == None:
+            return jsonify({"state" : "new-device"}), 200
 
         if not db.device_has_owner(device.id):
             return jsonify({"state" : "no-owner"}), 200
         else:
-            pass # TODO: Mezu berririk badago, bidali
+        	return jsonify({"state" : "correct"}), 200
+            # TODO: Mezu berririk badago, bidali
 
         return jsonify({"state" : "correct"}), 200
     except Exception, e:
@@ -81,12 +82,12 @@ def device_new():
     try:
         data = request.get_json(silent = True) # device auth
         if db.get_device_by_auth(data["auth"]) != None:
-            return jsonify({"error" : "Auth-kodea ez da baliozkoa"}), 400
+            return jsonify({"error" : "auth not valid"}), 400
 
         device = db.add(Device(data["auth"], Device.generate_code()))
 
         if device == False:
-            return jsonify({"error" : "Errorea datubasean"}), 500
+            return jsonify({"error" : "db error"}), 500
 
         logger.info("Device berri bat sortu da. Auth:"+device.auth+" Code:"+device.code+" addr:"+str(request.remote_addr))
 
