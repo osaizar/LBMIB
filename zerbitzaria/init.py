@@ -32,9 +32,9 @@ def main():
     """
 
     if database_exists(engine.url):
-        ans = raw_input("[+] lbmib datu basea aurkitu da, ezabatzea nahi? (b/e) ")
+        ans = input("[+] lbmib datu basea aurkitu da, ezabatzea nahi? (b/e) ")
         if ans.lower() == "b":
-            ans = raw_input("[!] Seguru zaude? (b/e) ")
+            ans = input("[!] Seguru zaude? (b/e) ")
             if ans.lower() == "b":
                 print ("[+] Datu basea ezabatzen...")
                 drop_database(engine.url)
@@ -42,7 +42,7 @@ def main():
                 create_database(engine.url)
                 Base.metadata.create_all(engine)
     else:
-        ans = raw_input("[+] lbmib datu basea ez da aurkitu, sortzea nahi? (b/e) ")
+        ans = input("[+] lbmib datu basea ez da aurkitu, sortzea nahi? (b/e) ")
         if ans.lower() == "b":
                 print ("[+] Datu basea sortzen...")
                 create_database(engine.url)

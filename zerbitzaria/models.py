@@ -25,10 +25,12 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
+    change_password = Column(Boolean, nullable=False) # Hasiera batean erabiltzaileak eskuz sortuko dira, lehenengo loginean pasahitza aldatzeko eskatuko da
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, change_password = True):
         self.username = username
         self.password = password
+        self.change_password = change_password
 
     def serialize(self):
         return {"id" : self.id , "username" : self.username}
