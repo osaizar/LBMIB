@@ -49,7 +49,7 @@ def add_device():
         logger.info("Device bati jabea jarri zaio. Auth:"+device.auth+" UserId:"+str(user.id)+" addr:"+str(request.remote_addr))
 
         return jsonify({"success" : "true"}), 200
-    except Exception, e:
+    except Exception as e:
         logger.error("Errorea 'add_device' : "+str(e)+" "+str(request.remote_addr))
         abort(500)
 
@@ -71,7 +71,7 @@ def device_state():
             # TODO: Mezu berririk badago, bidali
 
         return jsonify({"state" : "correct"}), 200
-    except Exception, e:
+    except Exception as e:
         logger.error("Errorea 'device_state' : "+str(e)+" "+str(request.remote_addr))
         abort(500)
 
@@ -92,7 +92,7 @@ def device_new():
         logger.info("Device berri bat sortu da. Auth:"+device.auth+" Code:"+device.code+" addr:"+str(request.remote_addr))
 
         return jsonify({"success" : "true", "code" : device.code}), 200
-    except Exception, e:
+    except Exception as e:
         logger.error("Errorea 'device_new' : "+str(e)+" "+str(request.remote_addr))
         abort(500)
 

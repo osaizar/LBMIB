@@ -27,24 +27,24 @@ def check_user(username):
 def main():
     """
     if not check_root():
-        print "[!] Exekutatu scipt hau root moduan"
+        print ("[!] Exekutatu scipt hau root moduan")
         sys.exit(1)
     """
-    
+
     if database_exists(engine.url):
         ans = raw_input("[+] lbmib datu basea aurkitu da, ezabatzea nahi? (b/e) ")
         if ans.lower() == "b":
             ans = raw_input("[!] Seguru zaude? (b/e) ")
             if ans.lower() == "b":
-                print "[+] Datu basea ezabatzen..."
+                print ("[+] Datu basea ezabatzen...")
                 drop_database(engine.url)
-                print "[+] Datu basea sortzen..."
+                print ("[+] Datu basea sortzen...")
                 create_database(engine.url)
                 Base.metadata.create_all(engine)
     else:
         ans = raw_input("[+] lbmib datu basea ez da aurkitu, sortzea nahi? (b/e) ")
         if ans.lower() == "b":
-                print "[+] Datu basea sortzen..."
+                print ("[+] Datu basea sortzen...")
                 create_database(engine.url)
                 Base.metadata.create_all(engine)
 

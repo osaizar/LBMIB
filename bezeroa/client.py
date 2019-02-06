@@ -9,7 +9,7 @@ token = False
 
 def load_token():
     global token
-    print "[DEBUG] Loading token"
+    print("[DEBUG] Loading token")
     try:
         with open('token.json') as f:
             data = json.load(f)
@@ -53,14 +53,14 @@ def greet():
     elif data["error"] == "auth not valid":
         token = False
     else:
-        print "[DEBUG] Error in the new-device request, "+data["error"]
+        print("[DEBUG] Error in the new-device request, "+data["error"])
 
 def handshake():
     global token
     if not token.code: # coderik ez badago, berriz hasi prozesua
         token = False
     else:
-        print "Enter the code: "+str(token.code) # TODO: pantailan erakutsi beharko da kodea
+        print("Enter the code: "+str(token.code)) # TODO: pantailan erakutsi beharko da kodea
 
         state = get_state()["state"]
         while state == "no-owner": # kodeari itxaron
@@ -70,18 +70,18 @@ def handshake():
 def initialization(state):
     global token
     if state == "new-device":
-        print "[DEBUG] The device is new, greeting the server"
+        print ("[DEBUG] The device is new, greeting the server")
         greet()
     elif state == "no-owner":
-        print "[DEBUG] The device has no owners, handshake needed"
+        print("[DEBUG] The device has no owners, handshake needed")
         handshake()
 
 def main():
     global token
-    print "[DEBUG] Starting Program"
+    print("[DEBUG] Starting Program")
 
     if not load_token():
-        print "[DEBUG] Token not found, generating"
+        print("[DEBUG] Token not found, generating")
         generate_token()
 
     state = get_state()["state"]
@@ -92,14 +92,14 @@ def main():
 
         state = get_state()["state"]
 
-    print "[DEBUG] Initialization successful"
+    print("[DEBUG] Initialization successful")
 
-    # print "[DEBUG] State == False, error in the resquest."
+    # print("[DEBUG] State == False, error in the resquest.")
 
     while True:
         state = get_state()
-        print str(state) # Debug
-        time.sleep(1)
+        print("state: "+str(state)) # Debug
+        time.sleep(10)
 
 if __name__ == '__main__':
     main()

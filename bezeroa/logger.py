@@ -17,9 +17,9 @@ class Logger():
 
             # add the handlers to the logger
             self.logger.addHandler(handler)
-        except Exception, e:
-            print "[!] Arazoa loggera hastean. Programa irten egingo da!"
-            print "[!] "+str(e)
+        except Exception as e:
+            print("[!] Arazoa loggera hastean. Programa irten egingo da!")
+            print("[!] "+str(e))
             sys.exit(1)
 
     def get_logger(self):

@@ -39,7 +39,7 @@ def validate_token(f):
                 logger.warning("400 Errorea,"+user.username+" erabiltzailearen tokena iraungita dago. "+str(request.remote_addr))
                 return jsonify({"error" : "Gakoa ez da zuzena"}), 200
 
-        except Exception, e:
+        except Exception as e:
             logger.error("Extepzioa 'validate_token': "+str(e)+" "+str(request.remote_addr))
             return jsonify({"error": "Eskaera ez da egokia"}), 400
 
@@ -52,7 +52,7 @@ def validate_schema(name):
         def wrapper(*args, **kw):
             try:
                 validate(request.json, name)
-            except Exception, e:
+            except Exception as e:
                 return jsonify({"error": e.message}), 400
             return f(*args, **kw)
         return wrapper
