@@ -8,3 +8,4 @@ npm-debug.log
 project/static/js/client.js
 project/static/bower_components
 *.log
+__pycache__/
