@@ -47,7 +47,7 @@ class LoginForm extends Component {
                 <Form.Label>Pasahitza</Form.Label>
                 <Form.Control type="password" name="password" value={this.state.password} onChange={this.onChange}/>
               </Form.Group>
-              <Button type="submit">Sartu</Button>
+              <Button className="pull-right" type="submit">Sartu</Button>
             </Form>
           </Card.Body>
         </Card>

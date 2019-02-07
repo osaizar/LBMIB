@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Container } from 'react-bootstrap';
+
 import LoginForm from './forms/LoginForm';
 
 class LoginPage extends Component {
 
   render(){
     return(
-      <LoginForm/>
+      <Container id="loginForm">
+        <LoginForm/>
+      </Container>
     );
   }
 }
