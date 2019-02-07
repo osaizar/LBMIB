@@ -1,4 +1,4 @@
-import { BASE_URL, GET_USER, LOGIN_USER } from './Types';
+import { BASE_URL, GET_USER, LOGIN_USER, LOGOUT_USER} from './Types';
 
 export function getUser(token) {
   return function (dispatch) {
@@ -36,14 +36,6 @@ export function getUser(token) {
           console.log("Fatal Error "+JSON.stringify(err));
         }
       );
-
-    dispatch({
-      type : GET_USER,
-      payload : {
-        token : "",
-        username : ""
-      }
-    });
   }
 }
 
@@ -78,6 +70,32 @@ export function loginUser(postData) {
               payload : user
             });
           }
+        },
+        err => { // TODO: create errors
+          console.log("Fatal Error "+JSON.stringify(err));
+        }
+      );
+  }
+}
+
+export function logoutUser(token) {
+  return function (dispatch) {
+    fetch(BASE_URL+"/ajax/logout", {
+      method: 'GET',
+      headers : {
+        'token' : token
+      }
+    })
+      .then(response => // Try to parse the response
+        response.json().then(json => ({
+          status: response.status,
+          json
+        })
+      ))
+      .then(
+        ({status, json}) => {
+          const user = {"token" : "", "username" : ""};
+          localStorage.setItem("token", undefined);
         },
         err => { // TODO: create errors
           console.log("Fatal Error "+JSON.stringify(err));
