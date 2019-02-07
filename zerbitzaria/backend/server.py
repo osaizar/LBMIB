@@ -24,6 +24,33 @@ def token_generator(size=15, chars=string.ascii_uppercase + string.digits):
 def index(path):
     return render_template("index.html")
 
+@app.route('/ajax/login', methods=["POST"])
+@validate_json
+def login():
+    try:
+        data = request.get_json(silent = True) # username, password
+        user = db.get_user_by_username(data["username"])
+        if user == None:
+            logger.warning("Login errorea, '"+data["username"]+"' erabiltzailea ez da esistitzen. "+str(request.remote_addr))
+            return jsonify({"error": "Erabiltzaile izena ez da zuzena"}), 400
+        elif not check_password_hash(user.password, data["password"]):
+            logger.warning("Login errorea, '"+data["username"]+"' erabiltzaileak ez du pasahitz egokia erabili. "+str(request.remote_addr))
+            return jsonify({"error": "Pasahitza ez da zuzena"}), 400
+        else:
+            token = token_generator()
+            db.delete_session_by_user(user.id)
+            if not db.add_user_db(Session(user.id, token)):
+                abort(500)
+
+            # TODO:
+            #if user.change_password: # Pasahitza aldatu behar da
+            #    return jsonify({"token" : token, "chpassword" : "true"}), 200
+
+            return jsonify({"token" : token}), 200
+
+    except Exception as e:
+        logger.error("Errorea 'login' : "+str(e)+" "+str(request.remote_addr))
+        abort(500)
 
 @app.route('/ajax/add_device', methods=["POST"])
 @validate_json

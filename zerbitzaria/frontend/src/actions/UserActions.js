@@ -16,5 +16,6 @@ export function getUser() {
 export function loginUser(postData) {
   return function (dispatch) {
     // Send login details, get token
+    dispatch();
   }
 }

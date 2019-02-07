@@ -10,8 +10,8 @@ class PostForm extends Component {
     super(props);
 
     this.state ={
-      title : "",
-      body : ""
+      title : '',
+      body : ''
     };
 
     this.onChange = this.onChange.bind(this);
