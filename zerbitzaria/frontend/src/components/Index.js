@@ -8,7 +8,10 @@ import IndexPage from './IndexPage';
 class Index extends Component {
 
   componentWillMount(){
-    this.props.getUser();
+    const token = localStorage.getItem("token");
+    if (token != undefined && token != ""){
+      this.props.getUser(token);
+    }
   }
 
   render() {

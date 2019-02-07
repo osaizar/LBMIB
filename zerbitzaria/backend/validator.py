@@ -31,13 +31,13 @@ def validate_token(f):
             user = db.get_user_by_token(token)
             if user == None:
                 logger.warning("400 Errorea, tokena ez da egokia. "+str(request.remote_addr))
-                return jsonify({"error" : "Gakoa ez da zuzena"}), 200
+                return jsonify({"error" : "Gakoa ez da zuzena"}), 400
 
             session = db.get_session_by_token(token)
 
             if session.check_token_expired():
                 logger.warning("400 Errorea,"+user.username+" erabiltzailearen tokena iraungita dago. "+str(request.remote_addr))
-                return jsonify({"error" : "Gakoa ez da zuzena"}), 200
+                return jsonify({"error" : "Gakoa ez da zuzena"}), 400
 
         except Exception as e:
             logger.error("Extepzioa 'validate_token': "+str(e)+" "+str(request.remote_addr))

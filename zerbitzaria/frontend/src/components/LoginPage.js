@@ -38,7 +38,7 @@ class LoginPage extends Component {
         <Card>
           <Card.Header as="h3">Sartu</Card.Header>
           <Card.Body>
-            <Form id="signInForm" onSubmit={this.submit}>
+            <Form id="signInForm" onSubmit={this.onSubmit}>
               <Form.Group>
                 <Form.Label>Erabiltzaile izena:</Form.Label>
                 <Form.Control type="text" name="username" value={this.state.username} onChange={this.onChange}/>
@@ -47,7 +47,7 @@ class LoginPage extends Component {
                 <Form.Label>Pasahitza</Form.Label>
                 <Form.Control type="password" name="password" value={this.state.password} onChange={this.onChange}/>
               </Form.Group>
-              <br/><Button type="submit">Sartu</Button>
+              <Button type="submit">Sartu</Button>
             </Form>
           </Card.Body>
         </Card>

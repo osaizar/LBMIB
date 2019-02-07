@@ -1,3 +1,7 @@
+// Base url
+export const BASE_URL = 'http://localhost:5000';
+
+
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const NEW_POST = 'NEW_POST';
 

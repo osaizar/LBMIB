@@ -18,11 +18,29 @@ logger = Logger().get_logger()
 def token_generator(size=15, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+# CORS -> production should not have this
+@app.after_request
+def after_request(response):
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = '*'
+    return response
+
 # Main App route:
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
     return render_template("index.html")
+
+@app.route('/ajax/get_curr_user', methods=["GET"])
+@validate_token
+def get_curr_user():
+    try:
+        token = request.headers["token"]
+        user = db.get_user_by_token(token)
+        return jsonify({"username" : user.username, "token" : token}), 200
+    except Exception as e:
+        logger.error("Errorea 'get_curr_user' : "+str(e)+" "+str(request.remote_addr))
+        abort(500)
 
 @app.route('/ajax/login', methods=["POST"])
 @validate_json
@@ -39,7 +57,7 @@ def login():
         else:
             token = token_generator()
             db.delete_session_by_user(user.id)
-            if not db.add_user_db(Session(user.id, token)):
+            if not db.add(Session(user.id, token)):
                 abort(500)
 
             # TODO:
@@ -50,6 +68,18 @@ def login():
 
     except Exception as e:
         logger.error("Errorea 'login' : "+str(e)+" "+str(request.remote_addr))
+        abort(500)
+
+@app.route('/ajax/logout', methods=["GET"])
+@validate_token
+def logout():
+    try:
+        token = request.headers["token"]
+        user = db.get_user_by_token(token)
+        db.delete_session_by_user(user.id)
+        return jsonify({}), 200
+    except Exception as e:
+        logger.error("Errorea 'logout' : "+str(e)+" "+str(request.remote_addr))
         abort(500)
 
 @app.route('/ajax/add_device', methods=["POST"])
