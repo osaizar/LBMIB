@@ -27,6 +27,8 @@ def main():
                 print("[+] "+data.username+" gehitu da")
             else:
                 print("[!] Errorea! "+str(data))
+    else:
+        print("[-] Ez dakit ze esaten ai zean")
 
 if __name__ == '__main__':
     main()
