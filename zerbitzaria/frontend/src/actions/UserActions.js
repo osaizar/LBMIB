@@ -95,7 +95,11 @@ export function logoutUser(token) {
       .then(
         ({status, json}) => {
           const user = {"token" : "", "username" : ""};
-          localStorage.setItem("token", undefined);
+          localStorage.setItem("token", "");
+          dispatch({
+            type : LOGOUT_USER,
+            payload : user
+          });
         },
         err => { // TODO: create errors
           console.log("Fatal Error "+JSON.stringify(err));

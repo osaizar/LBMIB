@@ -34,9 +34,8 @@ class LoginForm extends Component {
 
   render(){
     return(
-      <Container>
         <Card>
-          <Card.Header as="h3">Sartu</Card.Header>
+          <Card.Header as="h5">Ongietorri</Card.Header>
           <Card.Body>
             <Form id="signInForm" onSubmit={this.onSubmit}>
               <Form.Group>
@@ -47,11 +46,10 @@ class LoginForm extends Component {
                 <Form.Label>Pasahitza</Form.Label>
                 <Form.Control type="password" name="password" value={this.state.password} onChange={this.onChange}/>
               </Form.Group>
-              <Button className="pull-right" type="submit">Sartu</Button>
+              <Button className="pull-right" type="submit" variant="light">Sartu</Button>
             </Form>
           </Card.Body>
         </Card>
-      </Container>
     );
   }
 
