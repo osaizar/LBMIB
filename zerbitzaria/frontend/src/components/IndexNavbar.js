@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import { logoutUser } from '../actions/UserActions';
 
 import {Navbar, Nav, Button} from 'react-bootstrap';
+import {FaPlus} from 'react-icons/fa';
 
 class IndexNavbar extends Component {
 
@@ -14,20 +15,21 @@ class IndexNavbar extends Component {
   }
 
   onLogout(){
-    this.props.logoutUser(localStorage.getItem("token"))
+    this.props.logoutUser(this.props.user.token)
   }
 
   render() {
       return (
-        <Navbar bg="light" expand="lg">
-          <Navbar.Brand>Logoa/Izena</Navbar.Brand>
+        <Navbar bg="light" expand="lg" fixed="top">
+          <Navbar.Brand>LBMIB</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse className="justify-content-end">
             <Nav className="mr-auto">
-              <Nav.Link href="#testeo">Testeo</Nav.Link>
+              <Navbar.Text>Kaixo, {this.props.user.username}</Navbar.Text>
             </Nav>
-            <Nav className="navbar-right">
-              <Button onClick={this.onLogout} variant="light">Irten</Button>
+            <Nav>
+              <Button onClick={this.onLogout} variant="success" className="horizontal-margins"><FaPlus/></Button>
+              <Button onClick={this.onLogout} variant="light" className="horizontal-margins">Irten</Button>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -36,9 +38,13 @@ class IndexNavbar extends Component {
 }
 
 IndexNavbar.propTypes = {
-  logoutUser : PropTypes.func.isRequired
+  logoutUser : PropTypes.func.isRequired,
+  user : PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user : state.user.user
+});
+
 
 export default connect(mapStateToProps, { logoutUser })(IndexNavbar);

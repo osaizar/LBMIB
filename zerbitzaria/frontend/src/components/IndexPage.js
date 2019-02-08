@@ -12,8 +12,8 @@ class IndexPage extends Component {
   render() {
       return (
         <div>
+          <IndexNavbar/>
           <Container className="page-center">
-            <IndexNavbar/>
             <Card>
               <Card.Header>
                 <h3>testeo</h3>

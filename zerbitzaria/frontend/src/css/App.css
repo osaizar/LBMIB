@@ -16,7 +16,7 @@ body {
   margin-top: 5em;
 }
 
-#loginForm {
-	width	: 40em;
-	margin-top: 15em;
+.horizontal-margins{
+  margin-left: 0.3em;
+  margin-right: 0.3em;
 }
