@@ -14,14 +14,7 @@ class IndexPage extends Component {
         <div>
           <IndexNavbar/>
           <Container className="page-center">
-            <Card>
-              <Card.Header>
-                <h3>testeo</h3>
-              </Card.Header>
-              <Card.Text>
-                <DeviceList/>
-              </Card.Text>
-            </Card>
+            <DeviceList/>
           </Container>
         </div>
     );
