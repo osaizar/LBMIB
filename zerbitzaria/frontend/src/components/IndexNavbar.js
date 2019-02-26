@@ -25,11 +25,12 @@ class IndexNavbar extends Component {
   }
 
   toggleNewDeviceModal(){
-    this.setState({newDevice : true});
+    this.setState({newDevice : !this.state.newDevice});
   }
 
   render() {
       return (
+        <>
         <Navbar bg="light" expand="lg" fixed="top">
           <Navbar.Brand>LBMIB</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
@@ -42,8 +43,9 @@ class IndexNavbar extends Component {
               <Button onClick={this.onLogout} variant="light" className="horizontal-margins">Irten</Button>
             </Nav>
           </Navbar.Collapse>
-          <NewDeviceModal show={this.state.newDevice}/>
         </Navbar>
+        <NewDeviceModal show={this.state.newDevice} toggle={this.toggleNewDeviceModal}/>
+        </>
     );
   }
 }

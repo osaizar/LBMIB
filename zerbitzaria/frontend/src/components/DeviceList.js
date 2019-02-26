@@ -34,7 +34,7 @@ class DeviceListElement extends Component {
           <Card.Subtitle className="mb-2 text-muted">Azken aldaketa: 1970-01-01</Card.Subtitle>
           <Row>
             <Col xs="9">
-              <Form.Control type="textarea" rows="1" value={this.props.text}></Form.Control>
+              <Form.Control type="textarea" rows="1" value={this.props.text} readOnly></Form.Control>
             </Col>
             <Col>
               <Button>Aldatu</Button>
